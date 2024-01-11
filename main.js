@@ -1,7 +1,5 @@
 const expenseList = document.querySelector("#expense-list");
 
-
-
 function addUser(){
 var name=document.getElementById('username').value;
 var password=document.getElementById('password').value;
@@ -41,7 +39,7 @@ function showUser() {
     // Check if there are any users
     if (users&& users.length > 0) {
               
-        users.forEach(user => {
+        users.forEach((user,index) => {
             const li = document.createElement('li');
             const username = user.username;
             const password = user.password;
@@ -61,20 +59,30 @@ function showUser() {
             var del=document.createElement('button');
             del.innerText="Delete";
             del.className="newbutton";     
+            del.addEventListener('click',()=>deleteUser(index));
             li.appendChild(del);
 
             
             li.className = "list-group-item";
-            expenseList.appendChild(li);
-
-
-           
-           
-         
-        });
+            expenseList.appendChild(li);    
+            });
         
     } else {
         // Display a message if no users are found
         alert('No user data found in localStorage.');
     }
+}
+
+function deleteUser(index) {
+    const users = JSON.parse(localStorage.getItem('user')) || [];
+
+    if (index >= 0 && index < users.length) {
+        users.splice(index, 1);
+        localStorage.setItem('user', JSON.stringify(users));
+        showUser(); // Update the user list after deleting a user
+    }
+}
+
+function editdetails(){
+
 }
