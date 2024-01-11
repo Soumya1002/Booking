@@ -4,17 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking APP</title>
-    <link rel="stylesheet" src="style.css"> 
+    <link rel="stylesheet" href="style.css"> 
+   
 </head>
+
 <body>
-    <form>
-        UserName:<input type="text" id="username" required>
-        PassWord:<input type="PassWord" id="password" required>
-        EmailId:<input type="email" id="email" required> 
+    <header>     <h1>Registration Form</h1>    </header>
 
+    <form onsubmit="return addUser()" class="form"   >
+        <div class="wrap-form">        
+        <br><br>
+        <label for="username">UserName</label>
+        <input type="text" id="username" ><br><br>
+        <label for="password">PassWord</label>
+        <input type="PassWord" id="password" ><br><br>
+        <label for="email">EmailId</label>
+        <input type="email" id="email" ><br><br> 
+        <button id="add" type="submit">Register</button>
+     </div>
     </form>
-  <script src="main.js">
-
-  </script>  
+    <script src="main.js"></script>  
 </body>
 </html>
