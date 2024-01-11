@@ -36,25 +36,43 @@ function showUser() {
     const users = JSON.parse(localStorage.getItem('user'));
 
     // Clear existing list items
-    //expenseList.textContent = ' ***';
+    expenseList.innerHTML = ' ';
 
     // Check if there are any users
-    if ( users.length > 0) {
-        expenseList.textContent = ' ***';
-       
+    if (users&& users.length > 0) {
+              
         users.forEach(user => {
             const li = document.createElement('li');
             const username = user.username;
             const password = user.password;
             const email = user.emailid;
 
-            li.appendChild(document.createTextNode(`${username}, ${password}, ${email}`));
-           // li.appendChild("<br>");
-            li.className = "list-group-item d-flex justify-content-between align-items-center";
+            const userDataParagraph = document.createElement('p');
+            userDataParagraph.innerHTML = `${username}, ${password}, ${email}`;
+            userDataParagraph.className="userdetails";
+            li.appendChild(userDataParagraph);
 
+            var edit=document.createElement('button');
+            edit.innerText='Edit';    
+            edit.className="newbutton";        
+            li.appendChild(edit);
+
+
+            var del=document.createElement('button');
+            del.innerText="Delete";
+            del.className="newbutton";     
+            li.appendChild(del);
+
+            
+            li.className = "list-group-item";
             expenseList.appendChild(li);
+
+
+           
+           
          
         });
+        
     } else {
         // Display a message if no users are found
         alert('No user data found in localStorage.');
