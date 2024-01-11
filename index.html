@@ -8,8 +8,16 @@
    
 </head>
 
-<body>
-    <header>     <h1>Registration Form</h1>    </header>
+<body onload="showUser()">
+    <header>    
+        <ul class="header">            
+            <li><a href="">Home</a></li> 
+            <li><a href="">AboutUs</a></li>
+            <li><a href="">ContactUs</a></li>
+        </ul>        
+        <h1>Registration Form</h1>      
+    </header>
+
 
     <form onsubmit="return addUser()" class="form"   >
         <div class="wrap-form">        
@@ -20,9 +28,14 @@
         <input type="PassWord" id="password" ><br><br>
         <label for="email">EmailId</label>
         <input type="email" id="email" ><br><br> 
-        <button id="add" type="submit">Register</button>
-     </div>
+        <button id="add" type="submit">Register</button>     
+     </div>    
     </form>
+    <label><h3>User Details</h3></label>
+
+    <div class="container mt-4 text-center">
+        <ul id="expense-list" class="list-group"></ul>
+    </div>
     <script src="main.js"></script>  
 </body>
 </html>
