@@ -52,7 +52,8 @@ function showUser() {
 
             var edit=document.createElement('button');
             edit.innerText='Edit';    
-            edit.className="newbutton";        
+            edit.className="newbutton";  
+            edit.addEventListener('click', ()=>editdetails(index));      
             li.appendChild(edit);
 
 
@@ -83,6 +84,28 @@ function deleteUser(index) {
     }
 }
 
-function editdetails(){
 
+function editdetails(index) {
+    const users = JSON.parse(localStorage.getItem('user')) || [];
+
+    if (index >= 0 && index < users.length) {
+        const userToEdit = users[index];
+
+        // Update the input values
+        document.getElementById('username').value = userToEdit.username;
+        document.getElementById('password').value = userToEdit.password;
+        document.getElementById('email').value = userToEdit.emailid;
+
+        localStorage.setItem('user', JSON.stringify(users));
+            showUser();
+
+            li.remove();
+            localStorage.removeItem(users[index]);
+
+       
+    } else {
+        console.error('Invalid index for editing');
+    }
 }
+
+
