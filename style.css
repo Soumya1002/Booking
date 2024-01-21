@@ -42,3 +42,13 @@ header {
    
    
 }
+
+.btn-danger{
+    background-color: red;
+    border-radius: 1rem;
+    font-weight: bold;
+    width:4rem;
+    height: 1.5rem;
+   
+}
+
