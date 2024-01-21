@@ -3,38 +3,50 @@
    const phonenum = document.querySelector('#phoneno');
 
 const addbtn = document.querySelector('.addbtn');
-const showbtn = document.querySelector('.showbtn');
 const userList=document.querySelector('#user-list');
 
 addbtn.addEventListener('click', (e) => {
     console.log("welcome");
     e.preventDefault(); 
 
+    const existingUsersString = localStorage.getItem('userdetail');
+    const existingUsers = existingUsersString ? JSON.parse(existingUsersString) : [];
+      
     const user = {
         name: name.value,
         email: email.value,
         phonenum: phonenum.value
-    };
+    };    
 
-    console.log('in');
+    existingUsers.push(user);
 
-    localStorage.setItem('userdetail', JSON.stringify(user));
+    localStorage.setItem('userdetail', JSON.stringify(existingUsers));
+
+    location.reload();
 });
 
 
 
-showbtn.addEventListener('click', (e)=>{
+addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault();
-    
-    const detailsString = localStorage.getItem('userdetail');
-    const details = JSON.parse(detailsString);
-    
-    console.log(details);
-    let li=document.createElement('li');
-    li.className="list-group-item";
-    li.appendChild(document.createTextNode(details.name+" "+details.email+" "+details.phonenum));
 
-    userList.appendChild(li);
-    window.alert("user details displayed on console and screen");
-})
-    
+    const usersString = localStorage.getItem('userdetail');
+    const users = JSON.parse(usersString);
+
+    console.log(users);
+
+   
+    userList.innerHTML = ''; 
+
+    if (users && users.length > 0) {
+        users.forEach(user => {
+            let li = document.createElement('li');
+            li.className = "list-group-item";
+            li.appendChild(document.createTextNode(user.name + " " + user.email + " " + user.phonenum));
+            userList.appendChild(li);
+        });
+       
+    } else {
+        window.alert("No user details found");
+    }
+});
