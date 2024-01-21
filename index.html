@@ -3,39 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking APP</title>
-    <link rel="stylesheet" href="style.css"> 
-   
+    <title>Booking App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
+    <header>      
+    <h1 id="main-title">Booking Appointment App</h1>
+    </header>   
 
-<body onload="showUser()">
-    <header>    
-        <ul class="header">            
-            <li><a href="">Home</a></li> 
-            <li><a href="">AboutUs</a></li>
-            <li><a href="">ContactUs</a></li>
-        </ul>        
-        <h1>Registration Form</h1>      
-    </header>
-
-
-    <form onsubmit="return addUser()" class="form"   >
-        <div class="wrap-form">        
-        <br><br>
-        <label for="username">UserName</label>
-        <input type="text" id="username" ><br><br>
-        <label for="password">PassWord</label>
-        <input type="PassWord" id="password" ><br><br>
-        <label for="email">EmailId</label>
-        <input type="email" id="email" ><br><br> 
-        <button id="add" type="submit">Register</button>     
-     </div>    
-    </form>
-    <label><h3>User Details</h3></label>
-
-    <div class="container mt-4 text-center">
-        <ul id="expense-list" class="list-group"></ul>
-    </div>
-    <script src="main.js"></script>  
+    <section class="container">
+        <div class="border">
+            <div class="main-element">
+                <form action="" id="my-form">
+                    <h1 id="add-user">Add User Details</h1>
+                    <label for="name">Name</label>
+                    <input type="text" id="name"><br>
+        
+                    <label for="email">EmailId</label>
+                    <input type="email" id="email"><br>
+        
+                    <label for="phonenume">PhoneNumber</label>
+                    <input type="number" id="phoneno"><br>
+        
+                    <input type="submit" class="btn" value="Submit">
+                </form>           
+            </div>
+        </div>
+    </section>
+       
 </body>
 </html>
