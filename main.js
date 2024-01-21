@@ -1,10 +1,10 @@
-   // Move the retrieval of values inside the event listener
-  let name = document.querySelector('#name');
-   let email = document.querySelector('#email');
-   let phonenum = document.querySelector('#phoneno');
+   const name = document.querySelector('#name');
+   const email = document.querySelector('#email');
+   const phonenum = document.querySelector('#phoneno');
 
-let addbtn = document.querySelector('.addbtn');
-let showbtn = document.querySelector('.showbtn');
+const addbtn = document.querySelector('.addbtn');
+const showbtn = document.querySelector('.showbtn');
+const userList=document.querySelector('#user-list');
 
 addbtn.addEventListener('click', (e) => {
     console.log("welcome");
@@ -25,14 +25,16 @@ addbtn.addEventListener('click', (e) => {
 
 showbtn.addEventListener('click', (e)=>{
     e.preventDefault();
-
-    // Correct usage of localStorage.getItem
+    
     const detailsString = localStorage.getItem('userdetail');
-
-    // Parse the JSON string back into an object
     const details = JSON.parse(detailsString);
     
     console.log(details);
-    window.alert("user details displayed on console");
+    let li=document.createElement('li');
+    li.className="list-group-item";
+    li.appendChild(document.createTextNode(details.name+" "+details.email+" "+details.phonenum));
+
+    userList.appendChild(li);
+    window.alert("user details displayed on console and screen");
 })
     
