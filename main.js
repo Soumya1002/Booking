@@ -16,15 +16,14 @@ addbtn.addEventListener('click', (e) => {
         email: email.value,
         phonenum: phonenum.value
     };  
-
-    let infojson=JSON.stringify(user); 
-    axios.post("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users",infojson,{
+    
+    axios.post("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users",user,{
         headers: {
             "Content-Type": "application/json"
         }
     })
     .then(res=>{
-        showUser(res.data);        
+        //showUser(res.data);        
         console.log(res);
         name.value='';
         email.value='';
@@ -35,17 +34,23 @@ addbtn.addEventListener('click', (e) => {
     })
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+    axios.get("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users").then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            showUser(res.data[i]);
+
+        }
+    }).catch(err => {
+        console.log(err);
+    })
+})
+
 
 
 function showUser(data) {
    
 let user=data;
-    console.log(user);
-
-   
-    userList.innerHTML = ''; 
-
-   
+    console.log(user);    
             let li = document.createElement('li');
             li.className = "list-group-item";
            
