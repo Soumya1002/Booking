@@ -8,20 +8,14 @@ const userList=document.querySelector('#user-list');
 let flag="false";
 
 addbtn.addEventListener('click', (e) => {
-    console.log("welcome");
-    e.preventDefault();    
-            
+               
     const user = {
         name: name.value,
         email: email.value,
         phonenum: phonenum.value
     };  
     
-    axios.post("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users",user,{
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
+    axios.post("https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users",user)
     .then(res=>{
         //showUser(res.data);        
         console.log(res);
@@ -32,13 +26,15 @@ addbtn.addEventListener('click', (e) => {
     .catch(err=>{
         console.log(err);
     })
+
+    window.reload();
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users").then(res => {
+    axios.get("https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users")
+    .then(res => {
         for (let i = 0; i < res.data.length; i++) {
             showUser(res.data[i]);
-
         }
     }).catch(err => {
         console.log(err);
@@ -63,11 +59,13 @@ let user=data;
             editbtn.className="btn-edit edit"
             editbtn.appendChild(document.createTextNode("Edit"));
 
+            li.setAttribute('data-user-id', user._id);
+
             li.appendChild(document.createTextNode(user.name + " " + user.email + " " + user.phonenum+ " "));
             li.appendChild(delbtn);
             li.appendChild(editbtn);
 
-            userList.appendChild(li);       
+            userList.appendChild(li);     
        
     
 };
@@ -82,15 +80,20 @@ userList.addEventListener('click', (e) => {
 
 function deleteItem(e) {
     const parentLi = e.target.parentElement;
-    userList.removeChild(parentLi);
+    const userId = parentLi.getAttribute('data-user-id');
 
-   
-    const emailToDelete = parentLi.textContent.split(' ')[1].trim();
-
-    
-
-    console.log("Updated users in localStorage: ", updatedUsers);
+    // Sending DELETE request
+    axios.delete(`https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users/${userId}`)
+    .then(() => {
+        // Remove the list item from the UI
+        userList.removeChild(parentLi);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }
+
+
 
 function editItem(e) {
     flag="true";
@@ -104,7 +107,6 @@ function editItem(e) {
         let pno = Parli.textContent.split(' ')[2].trim();
 
         console.log(mail);
-
       
         name.value = na;
         email.value = mail;
