@@ -9,48 +9,43 @@ let flag="false";
 
 addbtn.addEventListener('click', (e) => {
     console.log("welcome");
-    e.preventDefault(); 
-
-    const existingUsersString = localStorage.getItem('userdetail');
-    const existingUsers = existingUsersString ? JSON.parse(existingUsersString) : [];
-      
-    const isEmailUnique = existingUsers.every(user => user.email !== email.value);
-
-    if (flag="false" && !isEmailUnique) {
-        alert("Email already exists. Please use a different email");
-        location.reload();
-        return;
-    }
-    
-    
+    e.preventDefault();    
+            
     const user = {
         name: name.value,
         email: email.value,
         phonenum: phonenum.value
-    };    
+    };  
 
-    existingUsers.push(user);
-
-    localStorage.setItem('userdetail', JSON.stringify(existingUsers));
-
-    location.reload();
+    let infojson=JSON.stringify(user); 
+    axios.post("https://crudcrud.com/api/55cf7c8f8eca400d9ceb5d7c634fe6c0/users",infojson,{
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res=>{
+        showUser(res.data);        
+        console.log(res);
+        name.value='';
+        email.value='';
+        phonenum.value= '';
+    })
+    .catch(err=>{
+        console.log(err);
+    })
 });
 
 
 
-addEventListener('DOMContentLoaded', (e) => {
-    e.preventDefault();
-
-    const usersString = localStorage.getItem('userdetail');
-    const users = JSON.parse(usersString);
-
-    console.log(users);
+function showUser(data) {
+   
+let user=data;
+    console.log(user);
 
    
     userList.innerHTML = ''; 
 
-    if (users && users.length > 0) {
-        users.forEach(user => {
+   
             let li = document.createElement('li');
             li.className = "list-group-item";
            
@@ -67,13 +62,10 @@ addEventListener('DOMContentLoaded', (e) => {
             li.appendChild(delbtn);
             li.appendChild(editbtn);
 
-            userList.appendChild(li);
-        });
+            userList.appendChild(li);       
        
-    } else {
-        window.alert("No user details found");
-    }
-});
+    
+};
 
 userList.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete')) {
@@ -90,8 +82,7 @@ function deleteItem(e) {
    
     const emailToDelete = parentLi.textContent.split(' ')[1].trim();
 
-    const updatedUsers = (JSON.parse(localStorage.getItem('userdetail')) || []).filter(user => user.email !== emailToDelete);
-    localStorage.setItem('userdetail', JSON.stringify(updatedUsers));
+    
 
     console.log("Updated users in localStorage: ", updatedUsers);
 }
@@ -109,9 +100,7 @@ function editItem(e) {
 
         console.log(mail);
 
-        const updatedUsers = (JSON.parse(localStorage.getItem('userdetail')) || []).filter(user => user.email !== mail);
-        localStorage.setItem('userdetail', JSON.stringify(updatedUsers));
-
+      
         name.value = na;
         email.value = mail;
         phonenum.value = pno;
