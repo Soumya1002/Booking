@@ -7,31 +7,40 @@ const userList=document.querySelector('#user-list');
 
 let flag="false";
 
-addbtn.addEventListener('click', (e) => {
-               
+addbtn.addEventListener('click', (e) => {               
     const user = {
         name: name.value,
         email: email.value,
         phonenum: phonenum.value
-    };  
-    
-    axios.post("https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users",user)
-    .then(res=>{
-        //showUser(res.data);        
-        console.log(res);
-        name.value='';
-        email.value='';
-        phonenum.value= '';
-    })
-    .catch(err=>{
-        console.log(err);
-    })
+    }; 
+    const userId = addbtn.getAttribute("data-user-id"); 
 
+
+      if (userId) {
+        axios.put(`https://crudcrud.com/api/1b9a8e3ccd89478faf831c23ea924eb0/users/${userId}`, user)
+            
+    } else {
+        
+        axios.post("https://crudcrud.com/api/1b9a8e3ccd89478faf831c23ea924eb0/users", user)
+           
+    }
+
+    // Reset form fields
+    name.value = '';
+    email.value = '';
+    phonenum.value = '';
+
+    // Reset button to "Add" mode
+    addbtn.removeAttribute("data-user-id");
+    addbtn.value = 'Add';
+
+    // Reload the window (optional, depending on your requirements)
     window.reload();
 });
 
+
 window.addEventListener("DOMContentLoaded", () => {
-    axios.get("https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users")
+    axios.get("https://crudcrud.com/api/1b9a8e3ccd89478faf831c23ea924eb0/users")
     .then(res => {
         for (let i = 0; i < res.data.length; i++) {
             showUser(res.data[i]);
@@ -61,7 +70,7 @@ let user=data;
 
             li.setAttribute('data-user-id', user._id);
 
-            li.appendChild(document.createTextNode(user.name + " " + user.email + " " + user.phonenum+ " "));
+            li.appendChild(document.createTextNode(user.name + "|" + user.email + "|" + user.phonenum+ "|"));
             li.appendChild(delbtn);
             li.appendChild(editbtn);
 
@@ -83,7 +92,7 @@ function deleteItem(e) {
     const userId = parentLi.getAttribute('data-user-id');
 
     // Sending DELETE request
-    axios.delete(`https://crudcrud.com/api/2fda8b44ec534a54b445400ebf682917/users/${userId}`)
+    axios.delete(`https://crudcrud.com/api/1b9a8e3ccd89478faf831c23ea924eb0/users/${userId}`)
     .then(() => {
         // Remove the list item from the UI
         userList.removeChild(parentLi);
@@ -96,22 +105,30 @@ function deleteItem(e) {
 
 
 function editItem(e) {
-    flag="true";
+    flag = "true";
     console.log('edit');
 
-        let Parli = e.target.parentElement;
-        userList.removeChild(Parli);
+    // Get the parent list item
+    let parentLi = e.target.parentElement;
 
-        let na = Parli.textContent.split(' ')[0].trim();        
-        let mail = Parli.textContent.split(' ')[1].trim();
-        let pno = Parli.textContent.split(' ')[2].trim();
+    // Get the user ID from the data attribute
+    let userId = parentLi.getAttribute("data-user-id");
 
-        console.log(mail);
-      
-        name.value = na;
-        email.value = mail;
-        phonenum.value = pno;
+    // Get the user details from the list item
+    let name = parentLi.textContent.split('|')[0].trim();
+    let email = parentLi.textContent.split('|')[1].trim();
+    let phonenum = parentLi.textContent.split('|')[2].trim();
 
+    // Set the form values
+    document.querySelector('#name').value = name;
+    document.querySelector('#email').value = email;
+    document.querySelector('#phoneno').value = phonenum;
 
+    // Set the update button attributes
+    addbtn.setAttribute("data-user-id", userId);
+    addbtn.value = 'Update';
+    //deleteItem();
 }
+
+
 
