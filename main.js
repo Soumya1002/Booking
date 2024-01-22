@@ -5,6 +5,8 @@
 const addbtn = document.querySelector('.addbtn');
 const userList=document.querySelector('#user-list');
 
+let flag="false";
+
 addbtn.addEventListener('click', (e) => {
     console.log("welcome");
     e.preventDefault(); 
@@ -14,8 +16,9 @@ addbtn.addEventListener('click', (e) => {
       
     const isEmailUnique = existingUsers.every(user => user.email !== email.value);
 
-    if (!isEmailUnique) {
-        alert("Email already exists. Please use a different email.");
+    if (flag="false" && !isEmailUnique) {
+        alert("Email already exists. Please use a different email");
+        location.reload();
         return;
     }
     
@@ -55,9 +58,14 @@ addEventListener('DOMContentLoaded', (e) => {
             let delbtn=document.createElement('button');          
             delbtn.className="btn-danger delete"
             delbtn.appendChild(document.createTextNode("Delete"));
+            
+            let editbtn=document.createElement('button');          
+            editbtn.className="btn-edit edit"
+            editbtn.appendChild(document.createTextNode("Edit"));
 
-            li.appendChild(document.createTextNode(user.name + " " + user.email + " " + user.phonenum));
+            li.appendChild(document.createTextNode(user.name + " " + user.email + " " + user.phonenum+ " "));
             li.appendChild(delbtn);
+            li.appendChild(editbtn);
 
             userList.appendChild(li);
         });
@@ -69,16 +77,45 @@ addEventListener('DOMContentLoaded', (e) => {
 
 userList.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete')) {
-        const parentLi = e.target.parentElement;
-        userList.removeChild(parentLi);
-
-        // Extract the name from the clicked element
-        const nameToDelete = parentLi.textContent.split(' ')[0].trim();
-
-        // Update localStorage by filtering out the user with the matching name
-        const updatedUsers = (JSON.parse(localStorage.getItem('userdetail')) || []).filter(user => user.name !== nameToDelete);
-        localStorage.setItem('userdetail', JSON.stringify(updatedUsers));
-
+        deleteItem(e);
+    } else if (e.target.classList.contains('edit')) {
+        editItem(e);
     }
 });
+
+function deleteItem(e) {
+    const parentLi = e.target.parentElement;
+    userList.removeChild(parentLi);
+
+   
+    const emailToDelete = parentLi.textContent.split(' ')[1].trim();
+
+    const updatedUsers = (JSON.parse(localStorage.getItem('userdetail')) || []).filter(user => user.email !== emailToDelete);
+    localStorage.setItem('userdetail', JSON.stringify(updatedUsers));
+
+    console.log("Updated users in localStorage: ", updatedUsers);
+}
+
+function editItem(e) {
+    flag="true";
+    console.log('edit');
+
+        let Parli = e.target.parentElement;
+        userList.removeChild(Parli);
+
+        let na = Parli.textContent.split(' ')[0].trim();        
+        let mail = Parli.textContent.split(' ')[1].trim();
+        let pno = Parli.textContent.split(' ')[2].trim();
+
+        console.log(mail);
+
+        const updatedUsers = (JSON.parse(localStorage.getItem('userdetail')) || []).filter(user => user.email !== mail);
+        localStorage.setItem('userdetail', JSON.stringify(updatedUsers));
+
+        name.value = na;
+        email.value = mail;
+        phonenum.value = pno;
+
+
+}
 

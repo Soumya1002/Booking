@@ -52,3 +52,11 @@ header {
    
 }
 
+.btn-edit{
+    background-color: rgb(30, 158, 237);
+    border-radius: 1rem;
+    font-weight: bold;
+    width:4rem;
+    height: 1.5rem;
+   
+}
